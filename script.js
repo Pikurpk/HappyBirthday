@@ -24,12 +24,29 @@ const params = new URLSearchParams(window.location.search);
 const name = params.get("name");
 if (name) titleElement.textContent = `🎉 Happy Birthday ${name} 🎉`;
 
-// 🔁 Change photo + message
+// ✨ Typewriter effect for messages
+function typeMessage(text) {
+  messageElement.textContent = "";
+  let i = 0;
+  const interval = setInterval(() => {
+    messageElement.textContent += text[i];
+    i++;
+    if (i >= text.length) clearInterval(interval);
+  }, 50);
+}
+
+// 🔁 Change photo + message automatically
 function changePhoto() {
+  photoElement.classList.remove("fadeIn");
+  void photoElement.offsetWidth; // restart animation
+
   photoElement.src = photos[index];
-  messageElement.textContent = messages[index];
+  photoElement.classList.add("fadeIn");
+
+  typeMessage(messages[index]);
   index = (index + 1) % photos.length;
 }
+
 changePhoto();
 setInterval(changePhoto, 4000);
 
@@ -45,4 +62,11 @@ musicBtn.addEventListener("click", () => {
     music.pause();
     musicBtn.textContent = "🔊 Play Music";
   }
+});
+
+// 🎵 Auto-play when user first taps anywhere (for Android/iPhone)
+document.body.addEventListener("click", function startMusic() {
+  music.play().catch(() => {});
+  document.body.removeEventListener("click", startMusic);
+  musicBtn.textContent = "🔈 Music Playing";
 });
