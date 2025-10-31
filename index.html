@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Happy Birthday 🎂</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body {
-      height: 100%;
-      width: 100%;
+      height: 100%; width: 100%;
       overflow: hidden;
+      background: radial-gradient(circle at center, #ffb6c1, #ff69b4, #ff1493);
       font-family: 'Poppins', sans-serif;
       color: white;
-      background: radial-gradient(circle at center, #ffb6c1, #ff69b4, #ff1493);
     }
 
     @import url('https://fonts.googleapis.com/css2?family=Lobster&family=Great+Vibes&display=swap');
@@ -40,7 +39,6 @@
     .title {
       font-family: 'Lobster', cursive;
       font-size: 60px;
-      color: #fff;
       text-shadow: 0 0 20px #fff, 0 0 40px #ff69b4, 0 0 80px #ff1493;
       animation: glowText 2s ease-in-out infinite alternate;
     }
@@ -51,8 +49,7 @@
     }
 
     .photo {
-      width: 260px;
-      height: 260px;
+      width: 260px; height: 260px;
       object-fit: cover;
       border-radius: 25px;
       margin: 25px auto;
@@ -73,25 +70,9 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0.6; transform: scale(0.98); }
+      from { opacity: 0.7; transform: scale(0.98); }
       to { opacity: 1; transform: scale(1.02); }
     }
-
-    #musicControl {
-      position: absolute;
-      bottom: 20px;
-      right: 20px;
-      background: rgba(255,255,255,0.3);
-      border: 1px solid rgba(255,255,255,0.5);
-      padding: 8px 12px;
-      border-radius: 10px;
-      color: white;
-      font-size: 0.9em;
-      backdrop-filter: blur(5px);
-      transition: 0.3s;
-    }
-
-    #musicControl:hover { background: rgba(255,255,255,0.5); }
 
     .footer-text {
       position: fixed;
@@ -111,6 +92,21 @@
       to { text-shadow: 0 0 20px #fff, 0 0 40px #ff69b4, 0 0 60px #ff1493; }
     }
 
+    #musicControl {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(255,255,255,0.3);
+      border: 1px solid rgba(255,255,255,0.5);
+      padding: 8px 12px;
+      border-radius: 10px;
+      color: white;
+      font-size: 0.9em;
+      backdrop-filter: blur(5px);
+      transition: 0.3s;
+    }
+    #musicControl:hover { background: rgba(255,255,255,0.5); }
+
     @media (max-width: 600px) {
       .title { font-size: 45px; }
       .photo { width: 200px; height: 200px; }
@@ -129,7 +125,6 @@
   </div>
 
   <footer class="footer-text">💖 Happy Birthday Jaan 💖</footer>
-
   <button id="musicControl">🔊 Play Music</button>
 
   <audio id="bgMusic" loop>
@@ -137,29 +132,26 @@
   </audio>
 
   <script>
-    // Dynamic Name from URL
+    // Name from URL
     const urlParams = new URLSearchParams(window.location.search);
     const name = urlParams.get('name') || "Jaan";
-    document.getElementById("mainTitle").textContent = `🎉 Happy Birthday Sabiha 🎉`;
+    document.getElementById("mainTitle").textContent = `🎉 Happy Birthday ${name} 🎉`;
     document.querySelector(".footer-text").innerHTML = `💖 Happy Birthday ${name} 💖`;
 
-    // Background Confetti Animation
+    // Confetti animation
     const canvas = document.getElementById("canvas");
     const ctx = canvas.getContext("2d");
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-
     const confettis = [];
     for (let i = 0; i < 150; i++) {
       confettis.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
         r: Math.random() * 6 + 3,
-        d: Math.random() * 50,
         color: `hsl(${Math.random() * 360},100%,70%)`
       });
     }
-
     function drawConfetti() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       confettis.forEach(c => {
@@ -168,25 +160,48 @@
         ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
         ctx.fill();
       });
-      updateConfetti();
-      requestAnimationFrame(drawConfetti);
-    }
-
-    function updateConfetti() {
       confettis.forEach(c => {
         c.y += 1.5;
-        if (c.y > canvas.height) {
-          c.y = -10;
-          c.x = Math.random() * canvas.width;
-        }
+        if (c.y > canvas.height) c.y = -10;
       });
+      requestAnimationFrame(drawConfetti);
     }
-
     drawConfetti();
 
-    // Music Control
+    // Photos & messages
+    const photos = [
+      "Images/photo1.jpg",
+      "Images/photo2.jpg",
+      "Images/photo3.jpg",
+      "Images/photo4.jpg"
+    ];
+
+    const messages = [
+      "🎂 Wishing you endless smiles and happiness!",
+      "💖 You make the world brighter just by being in it!",
+      "🎈 Hope your day is full of love, laughter, and cake!",
+      "🌸 You deserve all the happiness in the universe!"
+    ];
+
+    let photoIndex = 0, msgIndex = 0;
+    const photoEl = document.getElementById("photo");
+    const msgEl = document.getElementById("message");
+
+    setInterval(() => {
+      photoIndex = (photoIndex + 1) % photos.length;
+      msgIndex = (msgIndex + 1) % messages.length;
+      photoEl.style.opacity = 0;
+      setTimeout(() => {
+        photoEl.src = photos[photoIndex];
+        msgEl.textContent = messages[msgIndex];
+        photoEl.style.opacity = 1;
+      }, 800);
+    }, 4000);
+
+    // Music
     const musicBtn = document.getElementById("musicControl");
     const bgMusic = document.getElementById("bgMusic");
+    bgMusic.volume = 0.7;
 
     musicBtn.addEventListener("click", () => {
       if (bgMusic.paused) {
@@ -200,4 +215,3 @@
   </script>
 </body>
 </html>
-
