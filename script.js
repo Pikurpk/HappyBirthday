@@ -11,6 +11,7 @@ const messages = [
   "May your day be filled with love and laughter 🎂",
   "You are truly special — enjoy your birthday to the fullest 🎉",
   "Keep shining bright like you always do 🌟"
+  "Love You Madam💖",
 ];
 // ====================================================
 
@@ -18,13 +19,15 @@ let index = 0;
 const photoElement = document.getElementById("photo");
 const messageElement = document.getElementById("message");
 const titleElement = document.getElementById("mainTitle");
+const music = document.getElementById("bgMusic");
+const musicBtn = document.getElementById("musicBtn");
 
 // 🎁 Get name from URL
 const params = new URLSearchParams(window.location.search);
 const name = params.get("name");
 if (name) titleElement.textContent = `🎉 Happy Birthday ${name} 🎉`;
 
-// ✨ Typewriter effect for messages
+// ✨ Typewriter effect
 function typeMessage(text) {
   messageElement.textContent = "";
   let i = 0;
@@ -35,14 +38,12 @@ function typeMessage(text) {
   }, 50);
 }
 
-// 🔁 Change photo + message automatically
+// 🔁 Change photo + message
 function changePhoto() {
   photoElement.classList.remove("fadeIn");
-  void photoElement.offsetWidth; // restart animation
-
+  void photoElement.offsetWidth;
   photoElement.src = photos[index];
   photoElement.classList.add("fadeIn");
-
   typeMessage(messages[index]);
   index = (index + 1) % photos.length;
 }
@@ -50,23 +51,33 @@ function changePhoto() {
 changePhoto();
 setInterval(changePhoto, 4000);
 
-// 🔊 Music Control
-const music = document.getElementById("bgMusic");
-const musicBtn = document.getElementById("musicBtn");
+// 🎶 MUSIC LOGIC (auto + manual)
+let userInteracted = false;
 
 musicBtn.addEventListener("click", () => {
   if (music.paused) {
-    music.play();
+    music.play().catch(() => {});
     musicBtn.textContent = "🔈 Music Playing";
   } else {
     music.pause();
     musicBtn.textContent = "🔊 Play Music";
   }
+  userInteracted = true;
 });
 
-// 🎵 Auto-play when user first taps anywhere (for Android/iPhone)
-document.body.addEventListener("click", function startMusic() {
-  music.play().catch(() => {});
-  document.body.removeEventListener("click", startMusic);
-  musicBtn.textContent = "🔈 Music Playing";
-});
+// 🔊 Play after first user tap anywhere
+document.body.addEventListener("touchstart", startMusicOnce);
+document.body.addEventListener("click", startMusicOnce);
+
+function startMusicOnce() {
+  if (!userInteracted) {
+    music.play().then(() => {
+      musicBtn.textContent = "🔈 Music Playing";
+    }).catch(() => {
+      console.log("Autoplay blocked, wait for button click");
+    });
+    userInteracted = true;
+  }
+  document.body.removeEventListener("touchstart", startMusicOnce);
+  document.body.removeEventListener("click", startMusicOnce);
+}
