@@ -78,13 +78,20 @@
     const name = params.get("name") || "মুত্তাসিন";
     titleElement.textContent = `🎉 শুভ জন্মদিন ${name} 🎉`;
 
-    // 🔊 বাংলা ভয়েস শুভেচ্ছা
+    // 🔊 বাংলা ভয়েস (fallback সহ)
     function speakGreeting() {
-      const msg = new SpeechSynthesisUtterance(`শুভ জন্মদিন ${name}!`);
-      msg.lang = "bn-BD"; // বাংলা ভয়েস
-      msg.pitch = 1;
-      msg.rate = 0.9;
-      msg.volume = 1;
+      const textBn = `শুভ জন্মদিন ${name}!`;
+      const textEn = `Happy Birthday to you, ${name}!`;
+      const msg = new SpeechSynthesisUtterance(textBn);
+      msg.lang = "bn-BD";
+
+      // যদি বাংলা voice না থাকে তাহলে fallback করবে English-এ
+      msg.onerror = () => {
+        const eng = new SpeechSynthesisUtterance(textEn);
+        eng.lang = "en-US";
+        window.speechSynthesis.speak(eng);
+      };
+
       window.speechSynthesis.speak(msg);
     }
 
@@ -109,12 +116,12 @@
       index = (index + 1) % photos.length;
     }
 
-    // 🚀 শুরু হবে প্রথম ক্লিকের পর
+    // 🚀 শুরু হবে প্রথম ট্যাপের পর
     document.body.addEventListener("click", function startAll() {
       changePhoto();
       setInterval(changePhoto, 4000);
       speakGreeting();
-      setInterval(speakGreeting, 5000); // 🔁 প্রতি ৫ সেকেন্ডে বলবে
+      setInterval(speakGreeting, 5000); // প্রতি ৫ সেকেন্ডে বলবে
       document.body.removeEventListener("click", startAll);
     });
   </script>
