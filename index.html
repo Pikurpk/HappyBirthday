@@ -2,19 +2,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy Birthday 🎂</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🎂 Happy Birthday Muttasin 🎂</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body {
-      height: 100%; width: 100%;
+      height: 100%;
+      width: 100%;
       overflow: hidden;
-      background: radial-gradient(circle at center, #ffb6c1, #ff69b4, #ff1493);
       font-family: 'Poppins', sans-serif;
       color: white;
+      background: radial-gradient(circle at center, #ffb6c1, #ff69b4, #ff1493);
     }
-
-    @import url('https://fonts.googleapis.com/css2?family=Lobster&family=Great+Vibes&display=swap');
 
     #canvas {
       position: fixed;
@@ -36,139 +35,104 @@
       padding: 20px;
     }
 
+    @import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+
     .title {
       font-family: 'Lobster', cursive;
+      font-weight: bold;
       font-size: 60px;
-      text-shadow: 0 0 20px #fff, 0 0 40px #ff69b4, 0 0 80px #ff1493;
-      animation: glowText 2s ease-in-out infinite alternate;
+      color: #fff;
+      text-shadow:
+        0 0 10px #fff,
+        0 0 20px #ffb6c1,
+        0 0 40px #ff69b4,
+        0 0 80px #ff1493;
+      animation: glowText 2s ease-in-out infinite alternate, bounceIn 1.5s ease-out forwards;
+      opacity: 0;
     }
 
     @keyframes glowText {
-      from { text-shadow: 0 0 10px #fff, 0 0 20px #ffb6c1; }
-      to { text-shadow: 0 0 20px #fff, 0 0 40px #ff69b4, 0 0 80px #ff1493; }
+      from {
+        text-shadow:
+          0 0 10px #fff,
+          0 0 20px #ff7eb9,
+          0 0 40px #ff65a3,
+          0 0 60px #ff1493;
+      }
+      to {
+        text-shadow:
+          0 0 20px #fff,
+          0 0 40px #ffb6c1,
+          0 0 80px #ff69b4,
+          0 0 100px #ff1493;
+      }
+    }
+
+    @keyframes bounceIn {
+      0% { transform: scale(0.3); opacity: 0; }
+      50% { transform: scale(1.1); opacity: 1; }
+      70% { transform: scale(0.9); }
+      100% { transform: scale(1); opacity: 1; }
     }
 
     .photo {
-      width: 260px; height: 260px;
+      width: 260px;
+      height: 260px;
       object-fit: cover;
       border-radius: 25px;
       margin: 25px auto;
-      display: block;
-      box-shadow: 0 0 30px rgba(255,255,255,0.8);
+      display: none;
+      box-shadow: 0 0 30px rgba(255,255,255,0.7);
       transition: opacity 1s ease;
     }
 
     .message {
-      font-size: 22px;
+      font-size: 24px;
       width: 90%;
       margin: 10px auto;
       min-height: 2em;
       color: #fff;
       text-shadow: 0 0 10px rgba(255,255,255,0.6);
       line-height: 1.6em;
-      animation: fadeIn 2s ease-in-out infinite alternate;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0.7; transform: scale(0.98); }
-      to { opacity: 1; transform: scale(1.02); }
-    }
-
-    .footer-text {
-      position: fixed;
-      bottom: 10px;
-      width: 100%;
-      text-align: center;
-      font-family: 'Great Vibes', cursive;
-      font-size: 28px;
-      color: #fff;
-      text-shadow: 0 0 10px #fff, 0 0 20px #ffb6c1, 0 0 30px #ff69b4;
-      animation: glowFooter 2s ease-in-out infinite alternate;
-      z-index: 10;
-    }
-
-    @keyframes glowFooter {
-      from { text-shadow: 0 0 10px #fff, 0 0 20px #ffb6c1; }
-      to { text-shadow: 0 0 20px #fff, 0 0 40px #ff69b4, 0 0 60px #ff1493; }
-    }
-
-    #musicControl {
-      position: absolute;
-      bottom: 20px;
-      right: 20px;
-      background: rgba(255,255,255,0.3);
-      border: 1px solid rgba(255,255,255,0.5);
-      padding: 8px 12px;
-      border-radius: 10px;
-      color: white;
-      font-size: 0.9em;
-      backdrop-filter: blur(5px);
-      transition: 0.3s;
-    }
-    #musicControl:hover { background: rgba(255,255,255,0.5); }
+    .fadeIn { display: block; opacity: 1; animation: fadeIn 1s ease; }
+    @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
 
     @media (max-width: 600px) {
       .title { font-size: 45px; }
       .photo { width: 200px; height: 200px; }
-      .message { font-size: 18px; }
-      .footer-text { font-size: 22px; }
+      .message { font-size: 20px; }
+    }
+
+    .tap-text {
+      position: absolute;
+      bottom: 30px;
+      color: white;
+      font-size: 18px;
+      opacity: 0.8;
+      animation: blink 1.5s infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 0.8; }
+      50% { opacity: 0.3; }
     }
   </style>
 </head>
 <body>
+
   <canvas id="canvas"></canvas>
 
   <div class="container">
-    <h1 class="title" id="mainTitle">🎉 Happy Birthday 🎉</h1>
-    <img id="photo" class="photo" src="Images/photo1.jpg">
-    <p class="message" id="message">Wishing you endless happiness on your special day 💖</p>
+    <h1 class="title" id="mainTitle">🎉 Happy Birthday Muttasin 🎉</h1>
+    <img id="photo" class="photo" src="">
+    <p class="message" id="message"></p>
+    <p class="tap-text">👆 Tap anywhere to start 🎶</p>
   </div>
 
-  <footer class="footer-text">💖 Happy Birthday Jaan 💖</footer>
-  <button id="musicControl">🔊 Play Music</button>
-
-  <audio id="bgMusic" loop>
-    <source src="music.mp3" type="audio/mpeg">
-  </audio>
-
   <script>
-    // Name from URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const name = urlParams.get('name') || "Jaan";
-    document.getElementById("mainTitle").textContent = `🎉 Happy Birthday Sabuu 🎉`;
-    document.querySelector(".footer-text").innerHTML = `💖 Happy Birthday ${name} 💖`;
-
-    // Confetti animation
-    const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext("2d");
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    const confettis = [];
-    for (let i = 0; i < 150; i++) {
-      confettis.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        r: Math.random() * 6 + 3,
-        color: `hsl(${Math.random() * 360},100%,70%)`
-      });
-    }
-    function drawConfetti() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      confettis.forEach(c => {
-        ctx.beginPath();
-        ctx.fillStyle = c.color;
-        ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
-        ctx.fill();
-      });
-      confettis.forEach(c => {
-        c.y += 1.5;
-        if (c.y > canvas.height) c.y = -10;
-      });
-      requestAnimationFrame(drawConfetti);
-    }
-    drawConfetti();
-
-    // Photos & messages
+    // ===================== CONFIG =====================
     const photos = [
       "Images/photo1.jpg",
       "Images/photo2.jpg",
@@ -177,42 +141,97 @@
     ];
 
     const messages = [
-      "🎂 Wishing you endless smiles and happiness!",
-      "💖 You make the world brighter just by being in it!",
-      "🎈 Hope your day is full of love, laughter, and cake!",
-      "🌸 You deserve all the happiness in the universe!"
+      "Wishing you endless happiness on your special day 💖",
+      "May your day be filled with love and laughter 🎂",
+      "You are truly special — enjoy your birthday to the fullest 🎉",
+      "Keep shining bright like you always do 🌟"
     ];
+    // ====================================================
 
-    let photoIndex = 0, msgIndex = 0;
+    let index = 0;
     const photoEl = document.getElementById("photo");
-    const msgEl = document.getElementById("message");
+    const messageEl = document.getElementById("message");
 
-    setInterval(() => {
-      photoIndex = (photoIndex + 1) % photos.length;
-      msgIndex = (msgIndex + 1) % messages.length;
-      photoEl.style.opacity = 0;
-      setTimeout(() => {
-        photoEl.src = photos[photoIndex];
-        msgEl.textContent = messages[msgIndex];
-        photoEl.style.opacity = 1;
-      }, 800);
-    }, 4000);
+    // ✨ Typewriter effect
+    function typeMessage(text) {
+      messageEl.textContent = "";
+      let i = 0;
+      const interval = setInterval(() => {
+        messageEl.textContent += text[i];
+        i++;
+        if (i >= text.length) clearInterval(interval);
+      }, 50);
+    }
 
-    // Music
-    const musicBtn = document.getElementById("musicControl");
-    const bgMusic = document.getElementById("bgMusic");
-    bgMusic.volume = 0.7;
+    // 🔁 Change photo + message
+    function changePhoto() {
+      photoEl.classList.remove("fadeIn");
+      void photoEl.offsetWidth;
+      photoEl.src = photos[index];
+      photoEl.classList.add("fadeIn");
+      typeMessage(messages[index]);
+      index = (index + 1) % photos.length;
+    }
 
-    musicBtn.addEventListener("click", () => {
-      if (bgMusic.paused) {
-        bgMusic.play();
-        musicBtn.textContent = "🔇 Stop Music";
-      } else {
-        bgMusic.pause();
-        musicBtn.textContent = "🔊 Play Music";
-      }
+    // 🔊 AI Voice
+    function speakGreeting() {
+      const name = "Muttasin";
+      const msg = new SpeechSynthesisUtterance(`Happy Birthday to you, ${name}!`);
+      msg.lang = "en-US";
+      msg.pitch = 1;
+      msg.rate = 0.9;
+      msg.volume = 1;
+      window.speechSynthesis.speak(msg);
+    }
+
+    // 🚀 Start everything after first user tap
+    document.body.addEventListener("click", function startAll() {
+      document.querySelector(".tap-text").style.display = "none";
+      speakGreeting();
+      changePhoto();
+      setInterval(changePhoto, 4000);
+      document.body.removeEventListener("click", startAll);
     });
+
+    // 🎆 Confetti background
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const confettis = [];
+    for (let i = 0; i < 200; i++) {
+      confettis.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 6 + 4,
+        color: `hsl(${Math.random() * 360},100%,70%)`
+      });
+    }
+
+    function drawConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      confettis.forEach(c => {
+        ctx.beginPath();
+        ctx.fillStyle = c.color;
+        ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      updateConfetti();
+      requestAnimationFrame(drawConfetti);
+    }
+
+    function updateConfetti() {
+      confettis.forEach(c => {
+        c.y += 2;
+        if (c.y > canvas.height) {
+          c.y = -10;
+          c.x = Math.random() * canvas.width;
+        }
+      });
+    }
+
+    drawConfetti();
   </script>
 </body>
 </html>
-
