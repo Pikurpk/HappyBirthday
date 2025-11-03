@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🎂 Happy Birthday 🎂</title>
+  <title>🎂 শুভ জন্মদিন 🎂</title>
   <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
   <style>
     body {
@@ -47,7 +47,7 @@
 </head>
 <body>
 
-  <h1 id="mainTitle">🎉 Happy Birthday 🎉</h1>
+  <h1 id="mainTitle">🎉 শুভ জন্মদিন 🎉</h1>
   <img id="photo" src="">
   <p id="message"></p>
 
@@ -61,10 +61,10 @@
     ];
 
     const messages = [
-      "Wishing you endless happiness on your special day 💖",
-      "May your day be filled with love and laughter 🎂",
-      "You are truly special — enjoy your birthday to the fullest 🎉",
-      "Keep shining bright like you always do 🌟"
+      "তোমার জীবন হোক আনন্দে ভরা 💖",
+      "হাসি আর ভালোবাসায় ভরে উঠুক তোমার দিন 🎂",
+      "তুমি সবসময় আলোকিত থেকো 🎉",
+      "শুভ জন্মদিন, মুত্তাসিন 🌟"
     ];
     // ====================================================
 
@@ -73,22 +73,22 @@
     const messageElement = document.getElementById("message");
     const titleElement = document.getElementById("mainTitle");
 
-    // 🎁 Get name from URL
+    // 🎁 URL থেকে নাম পড়া
     const params = new URLSearchParams(window.location.search);
-    const name = params.get("name") || "Muttasin";
-    titleElement.textContent = `🎉 Happy Birthday ${name} 🎉`;
+    const name = params.get("name") || "মুত্তাসিন";
+    titleElement.textContent = `🎉 শুভ জন্মদিন ${name} 🎉`;
 
-    // 🔊 Voice greeting (AI voice)
+    // 🔊 বাংলা ভয়েস শুভেচ্ছা
     function speakGreeting() {
-      const msg = new SpeechSynthesisUtterance(`Happy Birthday to you Mutttasin`);
-      msg.lang = "en-US";
+      const msg = new SpeechSynthesisUtterance(`শুভ জন্মদিন ${name}!`);
+      msg.lang = "bn-BD"; // বাংলা ভয়েস
       msg.pitch = 1;
       msg.rate = 0.9;
       msg.volume = 1;
       window.speechSynthesis.speak(msg);
     }
 
-    // ✨ Typewriter effect
+    // ✨ টাইপরাইটার ইফেক্ট
     function typeMessage(text) {
       messageElement.textContent = "";
       let i = 0;
@@ -99,7 +99,7 @@
       }, 50);
     }
 
-    // 🔁 Change photo + message
+    // 🔁 ছবি + মেসেজ পরিবর্তন
     function changePhoto() {
       photoElement.classList.remove("fadeIn");
       void photoElement.offsetWidth;
@@ -109,16 +109,15 @@
       index = (index + 1) % photos.length;
     }
 
-    // 🚀 Start everything on first user interaction
+    // 🚀 শুরু হবে প্রথম ক্লিকের পর
     document.body.addEventListener("click", function startAll() {
       changePhoto();
       setInterval(changePhoto, 4000);
       speakGreeting();
-      setInterval(speakGreeting, 5000); // 🔁 Repeat every 5 sec
+      setInterval(speakGreeting, 5000); // 🔁 প্রতি ৫ সেকেন্ডে বলবে
       document.body.removeEventListener("click", startAll);
     });
   </script>
 
 </body>
 </html>
-
