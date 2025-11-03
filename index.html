@@ -61,10 +61,10 @@
     ];
 
     const messages = [
-      "তোমার জীবন হোক আনন্দে ভরা 💖",
-      "হাসি আর ভালোবাসায় ভরে উঠুক তোমার দিন 🎂",
-      "তুমি সবসময় আলোকিত থেকো 🎉",
-      "শুভ জন্মদিন, মুত্তাসিন 🌟"
+      "Tomar jibon hok anonde bhora 💖",
+      "Hasi ar bhalobasay vore uthuk tomar din 🎂",
+      "Tumi sobshomoy alokito theko 🎉",
+      "Shuvo Jonmodin Muttasin 🌟"
     ];
     // ====================================================
 
@@ -73,29 +73,22 @@
     const messageElement = document.getElementById("message");
     const titleElement = document.getElementById("mainTitle");
 
-    // 🎁 URL থেকে নাম পড়া
     const params = new URLSearchParams(window.location.search);
-    const name = params.get("name") || "মুত্তাসিন";
-    titleElement.textContent = `🎉 শুভ জন্মদিন ${name} 🎉`;
+    const name = params.get("name") || "Muttasin";
+    titleElement.textContent = `🎉 Shuvo Jonmodin ${name} 🎉`;
 
-    // 🔊 বাংলা ভয়েস (fallback সহ)
+    // 🎤 Voice function (Banglish)
     function speakGreeting() {
-      const textBn = `শুভ জন্মদিন ${name}!`;
-      const textEn = `Happy Birthday to you, ${name}!`;
-      const msg = new SpeechSynthesisUtterance(textBn);
-      msg.lang = "bn-BD";
-
-      // যদি বাংলা voice না থাকে তাহলে fallback করবে English-এ
-      msg.onerror = () => {
-        const eng = new SpeechSynthesisUtterance(textEn);
-        eng.lang = "en-US";
-        window.speechSynthesis.speak(eng);
-      };
-
+      const text = `Shuvo Jonmodin ${name}!`;
+      const msg = new SpeechSynthesisUtterance(text);
+      msg.lang = "en-US"; // English voice but Banglish text
+      msg.pitch = 1;
+      msg.rate = 0.9;
+      msg.volume = 1;
       window.speechSynthesis.speak(msg);
     }
 
-    // ✨ টাইপরাইটার ইফেক্ট
+    // ✨ Typewriter
     function typeMessage(text) {
       messageElement.textContent = "";
       let i = 0;
@@ -106,7 +99,7 @@
       }, 50);
     }
 
-    // 🔁 ছবি + মেসেজ পরিবর্তন
+    // 🔁 Change photo + message
     function changePhoto() {
       photoElement.classList.remove("fadeIn");
       void photoElement.offsetWidth;
@@ -116,7 +109,7 @@
       index = (index + 1) % photos.length;
     }
 
-    // 🚀 শুরু হবে প্রথম ট্যাপের পর
+    // 🚀 Start on click (browser permission)
     document.body.addEventListener("click", function startAll() {
       changePhoto();
       setInterval(changePhoto, 4000);
